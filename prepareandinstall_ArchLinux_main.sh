@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Update system and install necessary packages
-sudo pacman -Syyu python-pip fluidsynth soundfont-fluid
+sudo pacman -Syyu python-pip fluidsynth soundfont-fluid aj-snapshot
 
 # Create configuration directory if it doesn't exist
 mkdir -p ~/.config/pip/

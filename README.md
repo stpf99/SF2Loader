@@ -1,4 +1,4 @@
-aj-snapshot connection.xml     /// run this for replacing  my personal setup file your custom once after  setuping session for fluidsynth (with jack driver in "qjackctl") and midi device (midi keyboard for example)
+aj-snapshot connection.xml     /// run this for replacing  my personal setup file your custom one after  setuping session for fluidsynth (with jack driver in "qjackctl") and midi device (midi keyboard for example)
 
 for ARCH Linux run arch script for auto install //NOT TESTED ON FRESH INSTALL
 

@@ -32,7 +32,7 @@ enable and start systemd services if needed:
       systemctl --user start jack_session.service
 
 
-  <img width="964" alt="screen" src="https://github.com/stpf99/SF2Loader/blob/12447302433bc8e8bfea74be4c2a7e419dd29f0e/screen.jpg">
+  <img width="399" alt="screen" src="https://github.com/stpf99/SF2Loader/blob/12447302433bc8e8bfea74be4c2a7e419dd29f0e/screen.jpg">
 
 
 

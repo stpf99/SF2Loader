@@ -8,36 +8,14 @@ for ARCH Linux run arch script for auto install:
 
 if port for webserver is not open:
 
-Za pomocą firewalld:
+      sudo iptables -A OUTPUT -p tcp --dport 5000 -j ACCEPT
+      sudo iptables -A OUTPUT -p udp --dport 5000 -j ACCEPT
+      sudo iptables -A INPUT -p tcp --dport 5000 -j ACCEPT
+      sudo iptables -A INPUT -p udp --dport 5000 -j ACCEPT
 
-Upewnij się, że firewalld jest zainstalowany i uruchomiony:
+      sudo iptables-save | sudo tee /etc/iptables/iptables.rules
 
-    sudo pacman -S firewalld
-    sudo systemctl enable firewalld
-    sudo systemctl start firewalld
-
-Otwórz port 5000 dla ruchu przychodzącego:
-
-    sudo firewall-cmd --permanent --add-port=5000/tcp
-    sudo firewall-cmd --permanent --add-port=5000/udp
-
-Otwórz port 5000 dla ruchu wychodzącego:
-W firewalld ruch wychodzący jest domyślnie dozwolony. Jeśli jednak masz specyficzne reguły blokujące ruch wychodzący, dodaj następujące polecenia:
-
-    sudo firewall-cmd --permanent --zone=trusted --add-port=5000/tcp
-    sudo firewall-cmd --permanent --zone=trusted --add-port=5000/udp
-
-Zastosuj zmiany:
-
-    sudo firewall-cmd --reload
-
-Sprawdzenie otwartych portów
-
-Aby sprawdzić, czy port 5000 jest otwarty i nasłuchuje, możesz użyć narzędzi takich jak netstat lub ss:
-
-    sudo ss -tuln | grep 5000
-
-To pokaże, czy port jest otwarty i który proces go nasłuchuje.
+      systemctl restart iptables
   
   
 enable and start systemd services if needed:

@@ -1,6 +1,4 @@
-run this for replacing  my personal setup file your custom one after  setuping session for fluidsynth (with jack driver in "qjackctl") and midi device (midi keyboard/s for example):
 
-      aj-snapshot /opt/sf2loader/connection.xml
 
 for ARCH Linux run arch script for auto install:
 
@@ -16,7 +14,11 @@ if port for webserver is not open:
       sudo iptables-save | sudo tee /etc/iptables/iptables.rules
 
       systemctl restart iptables
-  
+
+
+run this for replacing  my personal setup file your custom one after  setuping session for fluidsynth (with jack driver in "qjackctl") and midi device (midi keyboard/s for example):
+
+      aj-snapshot /opt/sf2loader/connection.xml      
   
 enable and start systemd services if needed:
 

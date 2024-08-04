@@ -1,4 +1,4 @@
-run this for replacing  my personal setup file your custom one after  setuping session for fluidsynth (with jack driver in "qjackctl") and midi device (midi keyboard for example):
+run this for replacing  my personal setup file your custom one after  setuping session for fluidsynth (with jack driver in "qjackctl") and midi device (midi keyboard/s for example):
 
       aj-snapshot /opt/sf2loader/connection.xml
 

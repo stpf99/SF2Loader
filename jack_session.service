@@ -1,0 +1,14 @@
+[Unit]
+Description=Service for jack session restore
+After=sf2loader.service
+Requires=sf2loader.service
+
+[Service]
+Type=simple
+ExecStart=/bin/sh /opt/sf2loader/jack_session.sh
+Restart=on-failure
+RestartSec=5
+RemainAfterExit=true
+
+[Install]
+WantedBy=default.target

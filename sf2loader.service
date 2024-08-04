@@ -1,0 +1,14 @@
+[Unit]
+Description=Service for s2loader
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 /opt/sf2loader/web_server.py
+Restart=on-failure
+RestartSec=5
+RemainAfterExit=true
+
+[Install]
+WantedBy=default.target

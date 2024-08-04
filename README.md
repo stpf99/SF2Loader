@@ -9,3 +9,20 @@ if port for webserver is not open:
   
   sudo iptables -A INPUT -p udp --dport 5000 -j ACCEPT
 
+
+  # Przeładowanie konfiguracji systemd
+  
+systemctl --user daemon-reload
+
+# Włączenie usługi do automatycznego uruchamiania przy starcie systemu
+
+systemctl --user enable sf2loader.service
+
+systemctl --user enable jack_session.service
+
+# Uruchomienie usługi
+
+systemctl --user start sf2loader.service
+
+systemctl --user start jack_session.service
+

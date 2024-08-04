@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Update system and install necessary packages
-sudo pacman -Syyu python-pip fluidsynth soundfont-fluid aj-snapshot
+sudo pacman -Syyu python-pip fluidsynth soundfont-fluid
 
 # Create configuration directory if it doesn't exist
 mkdir -p ~/.config/pip/
@@ -31,3 +31,11 @@ pip3 install flask==3.0.3 PyFluidSynth==1.3.3
 # Execute additional script
 ./install_sf2loader.sh
 
+sudo iptables -A OUTPUT -p tcp --dport 5000 -j ACCEPT
+sudo iptables -A OUTPUT -p udp --dport 5000 -j ACCEPT
+sudo iptables -A INPUT -p tcp --dport 5000 -j ACCEPT
+sudo iptables -A INPUT -p udp --dport 5000 -j ACCEPT
+
+sudo iptables-save | sudo tee /etc/iptables/iptables.rules
+
+systemctl restart iptables

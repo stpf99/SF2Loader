@@ -26,7 +26,7 @@ fi
 echo "Please log in to the system again."
 
 # Install necessary Python packages with specific versions
-pip3 install flask==3.0.3 PyFluidSynth==1.3.3
+pip3 install flask==3.0.3 PyFluidSynth==1.3.3 sf2utils==1.0.0
 
 # Execute additional script
 ./install_sf2loader.sh

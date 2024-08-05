@@ -17,7 +17,7 @@ cp *.service ~/.config/systemd/user/
 
 # Przeładowanie konfiguracji systemd
 systemctl --user daemon-reload
-
+ln -s /usr/share/soundfonts/*.sf2 /opt/sf2loader/sf2/
 # Włączenie usługi do automatycznego uruchamiania przy starcie systemu
 systemctl --user enable sf2loader.service
 systemctl --user enable jack_session.service

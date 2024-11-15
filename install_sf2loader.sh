@@ -7,7 +7,7 @@ sudo chmod -R u+rw /opt/sf2loader
 
 # Kopiowanie plików do katalogu /opt/sf2loader
 sudo cp -r SF2_loader.py web_server.py jack_session.sh connection.xml templates/ sf2/ /opt/sf2loader/
-
+sudo cp /home/$(whoami)/.local/bin/sf2parse /usr/bin/
 # Nadawanie uprawnień do wykonywania skryptu jack_session.sh
 sudo chmod +x /opt/sf2loader/jack_session.sh
 sudo chmod +x /opt/sf2loader/web_server.py

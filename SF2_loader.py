@@ -5,7 +5,7 @@ import subprocess
 import gi
 import threading
 gi.require_version('Gtk', '3.0')
-from gi.repository import Gtk, Gdk, Pango
+from gi.repository import Gtk, Pango, GLib
 
 class DAWApp:
     def __init__(self, headless=False):
@@ -75,9 +75,9 @@ class DAWApp:
         if not self.headless:
             Gtk.main()
         else:
-            # Run in headless mode (for web server)
-            while True:
-                pass
+            # Zamiast pętli while True: pass, używamy eventu do zatrzymania aplikacji w trybie headless
+            event = threading.Event()
+            event.wait()  # Czeka na zdarzenie do zakończenia programu
 
     def on_sf2_changed(self, combo):
         sf2_file = combo.get_active_text()
@@ -85,7 +85,7 @@ class DAWApp:
             bank = int(self.bank_combo.get_active_text())
             self.update_preset_combo(sf2_file, bank)
             preset = int(self.preset_combo.get_active_text().split(':')[0]) if self.preset_combo.get_active_text() else 0
-            self.load_sf2_instrument(os.path.join("/opt/sf2loader//sf2", sf2_file), bank, preset)
+            self.load_sf2_instrument(os.path.join("/opt/sf2loader/sf2", sf2_file), bank, preset)
             self.update_info_view()
 
     def on_sf2_prev_clicked(self, button):
@@ -118,14 +118,21 @@ class DAWApp:
                 print(f"Invalid preset value: {preset_text}")
 
     def get_preset_names(self, sf2_file):
-        # Uruchomienie sf2parse w celu analizy pliku SF2
-        output = subprocess.check_output(["sf2parse", os.path.join("/opt/sf2loader/sf2", sf2_file)]).decode("utf-8")
+        full_path = os.path.join("/opt/sf2loader/sf2", sf2_file)
+        print(f"Sprawdzam plik: {full_path}")  # Debugging line
+    
+        if not os.path.isfile(full_path):
+            print(f"Plik {sf2_file} nie istnieje w katalogu.")
+            return []
+    
+        try:
+            output = subprocess.check_output(['sf2parse', full_path]).decode("utf-8")
+            preset_pattern = re.compile(r'Preset\[(\d+:\d+)\] (\w+(?:\s+\w+)*)')
+            return preset_pattern.findall(output)
+        except subprocess.CalledProcessError as e:
+            print(f"Error running sf2parse: {e}")
+            return []
 
-        # Wyodrębnienie nazw presetów z wyjścia sf2parse
-        preset_pattern = re.compile(r'Preset\[(\d+:\d+)\] (\w+(?:\s+\w+)*)')
-        preset_names = preset_pattern.findall(output)
-
-        return preset_names
 
     def update_preset_combo(self, sf2_file, bank):
         if not self.headless:
@@ -152,7 +159,6 @@ class DAWApp:
             load()
         else:
             # W innych wątkach GUI używamy GLib.idle_add
-            from gi.repository import GLib
             GLib.idle_add(load)
 
     def update_info_view(self):
@@ -171,9 +177,11 @@ class DAWApp:
 
     def cleanup(self):
         # Zamknięcie programu i zakończenie działania
-        self.fs.delete()
+        if self.fs:
+            self.fs.delete()
 
 if __name__ == "__main__":
     app = DAWApp()
     app.run()
     app.cleanup()
+

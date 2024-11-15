@@ -22,12 +22,29 @@ def get_presets():
 
 @app.route('/load_instrument', methods=['POST'])
 def load_instrument():
-    data = request.json
-    sf2_file = data['sf2_file']
-    bank = int(data['bank'])
-    preset = int(data['preset'])
-    daw_app.load_sf2_instrument(f"/opt/sf2loader/sf2/{sf2_file}", bank, preset)
-    return jsonify({"status": "success"})
+    try:
+        data = request.json
+        # Check for necessary keys and handle missing data
+        sf2_file = data.get('sf2_file')
+        bank = data.get('bank')
+        preset = data.get('preset')
+        
+        if not sf2_file or bank is None or preset is None:
+            return jsonify({"status": "error", "message": "Missing required data"}), 400
+        
+        # Convert bank and preset to integers safely
+        try:
+            bank = int(bank)
+            preset = int(preset)
+        except ValueError:
+            return jsonify({"status": "error", "message": "Invalid bank or preset value"}), 400
+
+        daw_app.load_sf2_instrument(f"/opt/sf2loader/sf2/{sf2_file}", bank, preset)
+        return jsonify({"status": "success"})
+    
+    except Exception as e:
+        # Catch unexpected errors
+        return jsonify({"status": "error", "message": str(e)}), 500
 
 def run_flask():
     app.run(host='0.0.0.0', port=5000)
@@ -35,4 +52,5 @@ def run_flask():
 if __name__ == '__main__':
     flask_thread = threading.Thread(target=run_flask)
     flask_thread.start()
-    daw_app.run()
+    daw_app.run()  # Assuming this runs in the background
+

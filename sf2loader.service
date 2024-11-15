@@ -5,6 +5,7 @@ Wants=network-online.target
 
 [Service]
 Type=simple
+Environment="USER=%u"
 ExecStartPre=/bin/sleep 10
 ExecStart=/usr/bin/python3 /opt/sf2loader/web_server.py
 Restart=on-failure

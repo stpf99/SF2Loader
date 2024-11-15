@@ -29,7 +29,7 @@ echo "Please log in to the system again."
 pip3 install flask==3.0.3 PyFluidSynth==1.3.3 sf2utils==1.0.0
 
 # Execute additional script
-./install_sf2loader.sh
+sudo ./install_sf2loader.sh
 
 sudo iptables -A OUTPUT -p tcp --dport 5000 -j ACCEPT
 sudo iptables -A OUTPUT -p udp --dport 5000 -j ACCEPT
